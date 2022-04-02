@@ -3,15 +3,20 @@ import ToDoController from "../controllers/todo.controller";
 import { checkJwt } from "../middlewares/jwt";
 
 const router = Router();
+// get my Todo
+router.get("/getMyToDo", [checkJwt], ToDoController.getMyToDo);
+
+// addTodo
+router.get("/add", [checkJwt], ToDoController.addTODO);
 
 // addTodo
 router.post("/add", [checkJwt], ToDoController.addTODO);
 
 //editTodo
-router.post("/edit", [checkJwt], ToDoController.updateTODO);
+router.put("/edit", [checkJwt], ToDoController.updateTODO);
 
 //deleteTodo
-router.delete("/delete", [checkJwt], ToDoController.deleteTODO);
+router.delete("/delete/:id", [checkJwt], ToDoController.deleteTODO);
 
 
 export default router;
