@@ -11,9 +11,8 @@ const app: Express = express();
 const port = process.env.PORT;
 const mongoUlr: string = process.env.mongoURL|| "";
 
-// app.get('/', (req: Request, res: Response) => {
-//   res.send('Express + TypeScript Server');
-mongoose.connect("mongodb+srv://max:ODjmkgYPiqNhMgTk@testone-e21ea.mongodb.net/todo-app")
+// connecting to mongo db
+mongoose.connect(mongoUlr)
 .then(() => {
     console.log('db connected')
 }).catch((error) => {
@@ -27,8 +26,10 @@ app.use((req,res,next)=>{
   next();
 });
 app.use(bodyParser.json({strict: false}));
-app.use("/", routes);
+// setting main route
+app.use("/dev", routes);
 
+// setting port
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });

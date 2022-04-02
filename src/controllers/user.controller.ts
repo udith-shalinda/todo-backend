@@ -20,8 +20,6 @@ class AuthController {
         return res.status(404).send({message: 'user not found'});
       }else{
         const isCorrectPass: boolean = await bcrypt.compare(password, user.password);
-        console.log(isCorrectPass, password, user.password);
-        
         if(!isCorrectPass){
           return res.status(401).send({message: 'Incorrect Password'});
         }else{
@@ -49,7 +47,12 @@ class AuthController {
         // save user
         const newUser = await user.save();
         if(newUser){
-            return res.status(200).send(newUser);
+          const token = jwt.sign(
+            { userId: user._id, username: user.username },
+            config.jwtSecret,
+            { expiresIn: "1h" }
+          );
+            return res.status(200).send({...newUser, token});
         }else{
             return res.status(300).send({message: 'Save failed'});
         }
